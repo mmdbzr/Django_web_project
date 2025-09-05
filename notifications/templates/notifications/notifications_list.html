@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <h2>🔔 Notifications</h2>
+  <ul>
+    {% for notif in notifications %}
+    <li {% if not notif.is_read %} style="font-weight: bold" {% endif %}>
+      {{ notif.message }}
+      <small>({{ notif.created_at|date:"Y-m-d H:i" }})</small>
+    </li>
+    {% empty %}
+    <li>No notifications yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

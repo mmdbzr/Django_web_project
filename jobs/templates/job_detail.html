@@ -1,6 +1,62 @@
-{% extends 'base.html' %} {% block content %}
-<h1>{{ job.title }}</h1>
-<p><strong>Description:</strong> {{ job.description }}</p>
-<p><strong>Location:</strong> {{ job.location }}</p>
-<p><strong>Salary:</strong> {{ job.salary }}</p>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+  .job-detail-container {
+    width: 450px;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #e6f0fa, #f0f9ff);
+    border: 2px solid #6ab0ff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 100, 255, 0.2), 0 0 10px rgba(106, 176, 255, 0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .job-title {
+    text-align: center;
+    font-size: 28px;
+    color: #1a3c6d;
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+
+  .job-detail-box {
+    background-color: #f8fbff;
+    border: 1px solid #a0c4ff;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .job-detail-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3);
+  }
+
+  .job-detail-box p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin: 10px 0;
+  }
+
+  .job-detail-box p strong {
+    color: #1a3c6d;
+    font-weight: bold;
+  }
+</style>
+
+<div class="job-detail-container">
+  <h1 class="job-title">{{ job.title }}</h1>
+  <div class="job-detail-box">
+    <p><strong>Description:</strong></p>
+    <p>{{ job.description }}</p>
+
+    <p><strong>Location:</strong> {{ job.location }}</p>
+    <p><strong>Salary:</strong> {{ job.salary }}</p>
+  </div>
+</div>
 {% endblock %}

@@ -1,2 +1,105 @@
-<h2>Employer Dashboard</h2>
-<p>Welcome {{ user.username }}!</p>
+{% extends 'base.html' %} {% block content %}
+
+<style>
+  .dashboard-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #e6f0fa, #f0f9ff);
+    border: 2px solid #6ab0ff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 100, 255, 0.2),
+      0 0 10px rgba(106, 176, 255, 0.3);
+    font-weight: bold;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .dashboard-title {
+    text-align: center;
+    font-size: 28px;
+    color: #1a3c6d;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    color: #1a3c6d;
+    margin: 30px 0 15px;
+    border-bottom: 2px solid #4a90e2;
+    padding-bottom: 5px;
+  }
+
+  .job-list,
+  .application-list,
+  .notification-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .job-list li,
+  .application-list li,
+  .notification-list li {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f8fbff;
+    border: 1px solid #a0c4ff;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .job-list li:hover,
+  .application-list li:hover,
+  .notification-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  }
+
+  .empty-message {
+    color: #555;
+    font-style: italic;
+  }
+</style>
+
+<div class="dashboard-container">
+  <h2 class="dashboard-title">Employer Dashboard</h2>
+
+  <!-- Job Postings -->
+  <h3 class="section-title">My Job Postings:</h3>
+  <ul class="job-list">
+    {% for job in jobs %}
+    <li>{{ job.title }} (Created on: {{ job.created_at|date:"Y-m-d" }})</li>
+    {% empty %}
+    <li class="empty-message">You haven't posted any jobs yet.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Applications -->
+  <h3 class="section-title">Received Applications:</h3>
+  <ul class="application-list">
+    {% for app in applications %}
+    <li>
+      {{ app.user.username }} applied for "{{ app.job.title }}" - Status: {{
+      app.get_status_display }}
+    </li>
+    {% empty %}
+    <li class="empty-message">You haven't received any applications.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Notifications -->
+  <h3 class="section-title">Latest Notifications:</h3>
+  <ul class="notification-list">
+    {% for notif in notifications %}
+    <li>
+      {{ notif.message }}
+      <small style="color: gray"
+        >({{ notif.created_at|date:"Y-m-d H:i" }})</small
+      >
+    </li>
+    {% empty %}
+    <li class="empty-message">No notifications yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

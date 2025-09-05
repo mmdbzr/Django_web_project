@@ -1,0 +1,95 @@
+{% extends 'base.html' %} {% block content %}
+
+<style>
+  .dashboard-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #f0fff9, #f9fffd);
+    border: 2px solid #4caf93;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 150, 100, 0.2),
+      0 0 10px rgba(76, 175, 147, 0.3);
+    font-weight: bold;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .dashboard-title {
+    text-align: center;
+    font-size: 26px;
+    color: #1b5e20;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    color: #1b5e20;
+    margin: 25px 0 15px;
+    border-bottom: 2px solid #4caf93;
+    padding-bottom: 5px;
+  }
+
+  .application-list,
+  .notification-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .application-list li,
+  .notification-list li {
+    padding: 12px;
+    margin-bottom: 10px;
+    background-color: #f9fffc;
+    border: 1px solid #b2dfdb;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .application-list li:hover,
+  .notification-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 147, 0.3);
+  }
+
+  .empty-message {
+    color: #555;
+    font-style: italic;
+  }
+</style>
+
+<div class="dashboard-container">
+  <h2 class="dashboard-title">🎯 داشبورد جویای کار</h2>
+
+  <!-- Applications -->
+  <h3 class="section-title">📄 درخواست‌های من:</h3>
+  <ul class="application-list">
+    {% for app in applications %}
+    <li>
+      شغل: "{{ app.job.title }}" - وضعیت: {{ app.get_status_display }}
+      <small style="color: gray"
+        >(ارسال شده در: {{ app.created_at|date:"Y-m-d" }})</small
+      >
+    </li>
+    {% empty %}
+    <li class="empty-message">هنوز به هیچ شغلی درخواست نداده‌اید.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Notifications -->
+  <h3 class="section-title">🔔 اعلان‌های من:</h3>
+  <ul class="notification-list">
+    {% for notif in notifications %}
+    <li>
+      {{ notif.message }}
+      <small style="color: gray"
+        >({{ notif.created_at|date:"Y-m-d H:i" }})</small
+      >
+    </li>
+    {% empty %}
+    <li class="empty-message">هیچ پیامی برای شما ثبت نشده است.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

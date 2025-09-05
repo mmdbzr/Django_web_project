@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% block content %}
+
+<style>
+  .delete-container {
+    width: 400px;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #fef0f0, #ffecec);
+    border: 2px solid #f08080;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.2),
+      0 0 10px rgba(240, 128, 128, 0.3);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+  }
+
+  .delete-container h2 {
+    font-size: 24px;
+    color: #b71c1c;
+    margin-bottom: 20px;
+  }
+
+  .delete-container p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  .delete-container form button,
+  .delete-container a.cancel-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .delete-container form button {
+    background: linear-gradient(90deg, #e53935, #c62828);
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .delete-container form button:hover {
+    background: linear-gradient(90deg, #c62828, #b71c1c);
+    transform: translateY(-2px);
+  }
+
+  .delete-container a.cancel-btn {
+    background: #ccc;
+    color: #333;
+  }
+
+  .delete-container a.cancel-btn:hover {
+    background: #999;
+    transform: translateY(-2px);
+  }
+</style>
+
+<div class="delete-container">
+  <h2>حذف شغل</h2>
+  <p>آیا مطمئن هستید که می‌خواهید شغل "{{ object.title }}" را حذف کنید؟</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">بله، حذف شود</button>
+    <a href="{% url 'jobs:job-list' %}" class="cancel-btn">لغو</a>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,10 +1,92 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
   <head>
     <meta charset="UTF-8" />
-    <title>Smart Job Portal</title>
+    <title>{% block title %}Smart Job Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+      /* پیام‌ها */
+      .messages-container {
+        max-width: 800px;
+        margin: 20px auto;
+      }
+      .alert {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .alert.success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .alert.error {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+      .alert.info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+
+      /* ناوبری */
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 15px;
+        padding: 0;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: #1a3c6d;
+        font-weight: bold;
+      }
+      nav ul li a:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
-    {% block content %} {% endblock %}
+    <header>
+      <nav>
+        <ul>
+          <li><a href="{% url 'home' %}">خانه</a></li>
+
+          {% if user.is_authenticated %} {% if user.is_employer %}
+          <li>
+            <a href="{% url 'dashboard:employer_dashboard' %}"
+              >داشبورد کارفرما</a
+            >
+          </li>
+          {% elif user.is_seeker %}
+          <li>
+            <a href="{% url 'dashboard:seeker_dashboard' %}"
+              >داشبورد جویای کار</a
+            >
+          </li>
+          {% elif user.is_superuser %}
+          <li>
+            <a href="{% url 'dashboard:admin_dashboard' %}">داشبورد ادمین</a>
+          </li>
+          {% endif %}
+          <li><a href="{% url 'accounts:logout' %}">خروج</a></li>
+          {% else %}
+          <li><a href="{% url 'accounts:login' %}">ورود</a></li>
+          <li><a href="{% url 'accounts:register' %}">ثبت‌نام</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      {% if messages %}
+      <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </header>
+
+    <main>{% block content %}{% endblock %}</main>
   </body>
 </html>

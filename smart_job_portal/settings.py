@@ -1,8 +1,10 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-du8$xsy=si!=mi^09x+fpcdlld!g81od1w$#35^6uxpd^=n8^^'
+# استفاده از متغیر محیطی برای SECRET_KEY
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-du8$xsy=si!=mi^09x+fpcdlld!g81od1w$#35^6uxpd^=n8^^')
 
 DEBUG = True
 
@@ -18,10 +20,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'django_redis',
     'accounts',
     'jobs',
     'dashboard',
     'core',
+    'api',
+    'notifications',
+    'logs',
 ]
 
 MIDDLEWARE = [
@@ -32,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'logs.middleware.UserActivityLogMiddleware',
 ]
 
 ROOT_URLCONF = 'smart_job_portal.urls'
@@ -84,17 +93,25 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# REST Framework and JWT settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': '1d',  # توکن دسترسی ۱ روزه
+    'REFRESH_TOKEN_LIFETIME': '7d',
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'heidari.kimia2003@gmail.com'
-EMAIL_HOST_PASSWORD = 'lwiq upmg jfxi ueiq'
+LOGIN_REDIRECT_URL = 'dashboard:dashboard_redirect'  
 
-# Redirect after login
-LOGIN_REDIRECT_URL = '/accounts/dashboard-redirect/'

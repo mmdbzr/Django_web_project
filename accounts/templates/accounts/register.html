@@ -1,22 +1,108 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Register</title>
-</head>
-<body>
-    <h2>Register</h2>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
+    <style>
+      .register-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background: linear-gradient(135deg, #e6f0fa, #f0f9ff);
+        border: 2px solid #6ab0ff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 100, 255, 0.2),
+          0 0 10px rgba(106, 176, 255, 0.3);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
+      .register-title {
+        text-align: center;
+        font-size: 28px;
+        color: #1a3c6d;
+        margin-bottom: 30px;
+        font-weight: bold;
+      }
+
+      .message {
+        text-align: center;
+        font-size: 16px;
+        color: #d32f2f;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #ffebee;
+        border-radius: 6px;
+      }
+
+      .register-form input[type="text"],
+      .register-form input[type="email"],
+      .register-form input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #a0c4ff;
+        border-radius: 6px;
+        font-size: 16px;
+        background-color: #f8fbff;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .register-form input[type="text"]:focus,
+      .register-form input[type="email"]:focus,
+      .register-form input[type="password"]:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+        outline: none;
+      }
+
+      .register-form button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(90deg, #4a90e2, #357abd);
+        color: white;
+        font-size: 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+      }
+
+      .register-form button:hover {
+        background: linear-gradient(90deg, #357abd, #2a6399);
+        transform: translateY(-2px);
+      }
+
+      .login-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #1a3c6d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .login-link:hover {
+        color: #4a90e2;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-container">
+      <h2 class="register-title">Register</h2>
+      {% if messages %} {% for message in messages %}
+      <p class="message">{{ message }}</p>
+      {% endfor %} {% endif %}
+
+      <form method="POST" class="register-form">
+        {% csrf_token %} {{ form.as_p }}
         <button type="submit">Register</button>
-    </form>
+      </form>
 
-    <a href="{% url 'login' %}">Already have an account? Login</a>
-</body>
+      <a href="{% url 'accounts:login' %}" class="login-link"
+        >Already have an account? Login</a
+      >
+    </div>
+  </body>
 </html>

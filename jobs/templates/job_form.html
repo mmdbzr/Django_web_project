@@ -1,7 +1,78 @@
-{% extends 'base.html' %} {% block content %}
-<h1>Create a New Job</h1>
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Submit</button>
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+  .form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #e6f0fa, #f0f9ff);
+    border: 2px solid #6ab0ff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 100, 255, 0.2), 0 0 10px rgba(106, 176, 255, 0.3);
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .form-title {
+    text-align: center;
+    font-size: 26px;
+    color: #1a3c6d;
+    margin-bottom: 20px;
+  }
+
+  .job-form input[type="text"],
+  .job-form input[type="number"],
+  .job-form textarea,
+  .job-form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #a0c4ff;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f8fbff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .job-form input[type="text"]:focus,
+  .job-form input[type="number"]:focus,
+  .job-form textarea:focus,
+  .job-form select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+    outline: none;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #4a90e2, #357abd);
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    margin-top:10px;
+  }
+
+  .btn:hover {
+    background: linear-gradient(90deg, #357abd, #2a6399);
+    transform: translateY(-2px);
+  }
+</style>
+
+<div class="form-container">
+  <h1 class="form-title">Create New Job Opportunity</h1>
+
+  <form method="post" class="job-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn">Submit Job Opportunity</button>
+  </form>
+</div>
 {% endblock %}
